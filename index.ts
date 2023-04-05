@@ -6,7 +6,6 @@ const ShSession = (): string => {
 };
 
 const api: AxiosInstance = axios.create({
-    baseURL: import.meta.env.API_URL,
     headers: {
         'Content-type': 'application/json'
     }
