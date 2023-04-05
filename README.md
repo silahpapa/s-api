@@ -13,7 +13,7 @@ It simplifies the process of making HTTP requests to your API backend and adding
 Usage
 Import the functions you need from the package:
 ###
-`import { doGet, doPost, doPut, doPatch, doDelete } from 'shapi`
+`import { doGet, doPost, doPut, doPatch, doDelete } from 's-apis'`
 
 Then, simply call the function you need
 
