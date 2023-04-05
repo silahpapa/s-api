@@ -31,7 +31,7 @@ GET request
 Example using doGet
 ```
 // Get user data by ID
-doGet('/users/1')
+doGet('https://jsonplaceholder.typicode.com/users/1')
   .then(response => {
     console.log(response.data);
   })
@@ -44,7 +44,7 @@ Post request
 Example using doPost
 ```
 // Create a new user
-doPost('/users', {
+doPost('https://jsonplaceholder.typicode.com/users', {
   name: 'John Doe',
   email: 'johndoe@example.com',
   password: 'password'
@@ -63,7 +63,7 @@ PUT request
 Example using doPut
 ```
 // Update user data
-doPut('/users/1', {
+doPut('https://jsonplaceholder.typicode.com/users/1', {
   name: 'Jane Doe',
   email: 'janedoe@example.com'
 })
@@ -82,7 +82,7 @@ PATCH request
 Example using doPatch
 ```
 // Update user data partially
-doPatch('/users/1', {
+doPatch('https://jsonplaceholder.typicode.com/users/1', {
   name: 'Jane Doe'
 })
   .then(response => {
@@ -99,7 +99,7 @@ Example using doDelete
 ```
 // Update user data partially
 // Delete a user
-doDelete('/users/1')
+doDelete('https://jsonplaceholder.typicode.com/users/1')
   .then(response => {
     console.log(response.data);
   })
