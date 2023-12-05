@@ -1,6 +1,6 @@
 {
   "name": "s-apis",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "axios package easy",
   "main": "index.js",
   "scripts": {
