@@ -1,9 +1,8 @@
-import axios, { AxiosInstance, AxiosResponse } from 'axios';
+import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 
-const ShSession = (): string => {
-    const token = localStorage.getItem('access_token');
-    return token ? token : '';
-};
+interface ApiConfig {
+    tokenName: string;
+}
 
 const api: AxiosInstance = axios.create({
     headers: {
@@ -11,15 +10,32 @@ const api: AxiosInstance = axios.create({
     }
 });
 
+api.interceptors.request.use((config: AxiosRequestConfig) => {
+    const accessToken = localStorage.getItem(config.tokenName);
+    if (accessToken) {
+        config.headers.Authorization = `Bearer ${accessToken}`;
+    }
+    return config;
+});
+
+export const createApi = (config: ApiConfig): AxiosInstance => {
+    return axios.create({
+        headers: {
+            'Content-type': 'application/json'
+        },
+        tokenName: config.tokenName
+    });
+};
+
 const addAuthorizationHeader = (headers: Record<string, string>) => {
-    const accessToken = ShSession();
+    const accessToken = localStorage.getItem('access_token'); // Change 'access_token' to your token name if needed
     if (accessToken) {
         headers.Authorization = `Bearer ${accessToken}`;
     }
     return headers;
 };
 
-export const doGet = async <T>(endPoint: string, data?: Record<string, unknown>): Promise<AxiosResponse<T>> => {
+export const doGet = async <T>(api: AxiosInstance, endPoint: string, data?: Record<string, unknown>): Promise<AxiosResponse<T>> => {
     const response = await api.get<T>(endPoint, {
         params: data,
         headers: addAuthorizationHeader({})

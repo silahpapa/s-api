@@ -2,7 +2,7 @@
   "name": "s-apis",
   "version": "1.0.1",
   "description": "axios package easy",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
     "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
