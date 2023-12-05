@@ -2,11 +2,12 @@ import axios from 'axios';
 
 const api = axios.create({
     headers: {
-        'Content-type': 'application/json'
-    }
+        'Content-type': 'application/json',
+    },
 });
 
-api.interceptors.request.use(config => {
+// Request interceptor for default headers
+api.interceptors.request.use((config) => {
     const accessToken = localStorage.getItem(config.tokenName);
     if (accessToken) {
         config.headers.Authorization = `Bearer ${accessToken}`;
@@ -14,55 +15,54 @@ api.interceptors.request.use(config => {
     return config;
 });
 
+// Create a new Axios instance with default headers
 export const createApi = (config) => {
-    return axios.create({
+    const instance = axios.create({
         headers: {
-            'Content-type': 'application/json'
+            'Content-type': 'application/json',
         },
-        tokenName: config.tokenName
     });
+
+    // Request interceptor for default headers
+    instance.interceptors.request.use((axiosConfig) => {
+        const accessToken = localStorage.getItem(config.tokenName);
+        if (accessToken) {
+            axiosConfig.headers.Authorization = `Bearer ${accessToken}`;
+        }
+        return axiosConfig;
+    });
+
+    return instance;
 };
 
-const addAuthorizationHeader = (headers) => {
-    const accessToken = localStorage.getItem('access_token'); // Change 'access_token' to your token name if needed
-    if (accessToken) {
-        headers.Authorization = `Bearer ${accessToken}`;
-    }
-    return headers;
-};
-
-export const doGet = async (api, endPoint, data) => {
-    const response = await api.get(endPoint, {
+// Common function for making GET requests
+export const doGet = async (instance, endPoint, data) => {
+    const response = await instance.get(endPoint, {
         params: data,
-        headers: addAuthorizationHeader({})
     });
     return response;
 };
 
-export const doPost = async (endPoint, data) => {
-    const response = await api.post(endPoint, data, {
-        headers: addAuthorizationHeader({})
-    });
+// Common function for making POST requests
+export const doPost = async (instance, endPoint, data) => {
+    const response = await instance.post(endPoint, data);
     return response;
 };
 
-export const doPut = async (endPoint, data) => {
-    const response = await api.put(endPoint, data, {
-        headers: addAuthorizationHeader({})
-    });
+// Common function for making PUT requests
+export const doPut = async (instance, endPoint, data) => {
+    const response = await instance.put(endPoint, data);
     return response;
 };
 
-export const doPatch = async (endPoint, data) => {
-    const response = await api.patch(endPoint, data, {
-        headers: addAuthorizationHeader({})
-    });
+// Common function for making PATCH requests
+export const doPatch = async (instance, endPoint, data) => {
+    const response = await instance.patch(endPoint, data);
     return response;
 };
 
-export const doDelete = async (endPoint) => {
-    const response = await api.delete(endPoint, {
-        headers: addAuthorizationHeader({})
-    });
+// Common function for making DELETE requests
+export const doDelete = async (instance, endPoint) => {
+    const response = await instance.delete(endPoint);
     return response;
 };
